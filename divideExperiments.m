@@ -7,11 +7,9 @@ function [emg_runs, force_runs] = divideExperiments(emg_data, emg_trigger_data, 
     
     % Find indices of peaks where force exceeds the threshold.
     force_peaks = find(abs(force_diff) > threshold);
-    disp(force_peaks);
     
     % Extract peaks every 2 values to avoid proximal/duplicate peaks.
     force_peaks = force_peaks(1:2:end);
-    disp(force_peaks);
     
     % Initialize cell arrays to store force runs.
     force_runs = cell(4, 2); % 4 experiments
@@ -38,28 +36,33 @@ function [emg_runs, force_runs] = divideExperiments(emg_data, emg_trigger_data, 
             % Extract force data segment and corresponding time segment.
             force_segment = force_data(start_index:end_index);
             time_segment = force_time(start_index:end_index);
-
-%             total_experiments = (length(force_peaks)-2)/2;
-%             num_experiment = floor((i)/2);
             
             % Store force data and time before any cutting.
             force_runs_beforecut{iterator,1} = force_segment;
             force_runs_beforecut{iterator,2} = time_segment;
-
-            % array_ordenado = sort(force_segment, 'descend');
-            % second_value = array_ordenado(1000);
-            % Calculate threshold for cutting the force signal.
-            threshold = 0.75 * max(force_segment);
-            filtered_indices = find(force_segment > threshold);
-            pos_slope_limit = filtered_indices(1);
-            neg_slope_limit = filtered_indices(end) + 1; % Sum 1 to include the last descent point.
+            
+            % Apply thresholding to detect the "plateau" region.
+            threshold_factor = 0.75;
+            threshold = threshold_factor * max(filtered_force_segment); % Set threshold as a factor of the maximum value
+            
+            % Find indices where the filtered force exceeds the threshold.
+            above_threshold_indices = find(filtered_force_segment > threshold);
+            
+            % Determine start and end points of the "plateau" region.
+            if ~isempty(above_threshold_indices)
+                pos_step_limit = above_threshold_indices(1);
+                neg_step_limit = above_threshold_indices(end) + 1; % Sum 1 to include the last descent point
+            else
+                % If no points are above the threshold, skip this iteration
+                continue;
+            end
             
             % Store indices for cutting.
-            cutted_indices{iterator, 1} = pos_slope_limit;
-            cutted_indices{iterator, 2} = neg_slope_limit;
+            cutted_indices{iterator, 1} = pos_step_limit;
+            cutted_indices{iterator, 2} = neg_step_limit;
 
             % Define range to maintain (plateau).
-            actual_range = pos_slope_limit:neg_slope_limit;
+            actual_range = pos_step_limit:neg_step_limit;
 
             % Cut force signal to maintain only the specified range.
             cutted_force = force_segment(actual_range);
@@ -121,31 +124,12 @@ function [emg_runs, force_runs] = divideExperiments(emg_data, emg_trigger_data, 
             emg_segment = emg_data(start_index:end_index, :);
             time_segment = emg_time(start_index:end_index);
             
-%             total_experiments = (length(trigger_peaks)-2)/2;
-%             num_experiment = floor((i)/2);
-            
             % Store EMG data and time before any cutting.
             emg_runs_beforecut{iterator,1} = emg_segment;
             emg_runs_beforecut{iterator,2} = time_segment;
-        
-    %         longitud_recorte_fuerza = length(force_runs_beforecut{iterator,1}) - length(force_runs{iterator,1});
-
-            % Calcula el porcentaje de recorte en la señal de EMG
-    %         porcentaje_recorte_emg = longitud_recorte_fuerza / length(emg_segment);
-
-            % Calcula el tamaño del recorte en la señal de EMG
-    %         longitud_recorte_emg = round(length(emg_segment) * porcentaje_recorte_emg);
-
-            % Calcula los índices de corte para la señal de EMG
-    %         initial_cut_emg = round(cutted_indices{iterator,1} * (1 + porcentaje_recorte_emg)); % Ajusta el inicio del corte
-    %         final_cut_emg = round(cutted_indices{iterator,2} * (1 + porcentaje_recorte_emg)); % Ajusta el final del corte
-
-            % Realiza el corte correspondiente en la señal de EMG
-    %         emg_cutted = emg_segment(initial_cut_emg:final_cut_emg);
-    %         time_emg_cutted = time_segment(initial_cut_emg:final_cut_emg);
             
             % Calculate indices for cutting the EMG signal.
-            initial_cut_emg = round(cutted_indices{iterator,1} * 2);
+            initial_cut_emg = round(cutted_indices{iterator,1} * 2); % The sampling frequency for HD-EMG is twice the Force one.
             final_cut_emg = round(cutted_indices{iterator,2} * 2);
             final_cut_emg = min(final_cut_emg, length(emg_segment));
             
