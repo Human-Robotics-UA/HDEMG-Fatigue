@@ -18,4 +18,4 @@ The tasks performed by each file are described below:
   - **Input parameters**: HD-EMG and its corresponding Trigger and Time data, as well as the Force and its corresponding Trigger and Time data.
   - **Output parameters**: MATLAB cell arrays containing the divided HD-EMG and Force runs, along with their respective Time data after cutting.
     
-- `main_experiment_division.m`: reads HD-EMG and Force data for a specific user and divides the data into separate experimental runs using the auxiliary functions defined in the previous files, and lastly plots the results.
+- `main_experiment_division.m`: reads HD-EMG and Force data for a specific user and divides the data into separate experimental runs using the auxiliary functions defined in the previous files, plots the results and lastly saves the experimental runs in `.mat` and `.csv` files.
