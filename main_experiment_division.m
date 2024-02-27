@@ -1,7 +1,7 @@
 %% 
 % Reading HD-EMG signals --------------------------------------------------
 
-user = 'H031B0101';
+user = 'H003B0101';
 
 % Default users
 [emg_data, emg_trigger_data, emg_time, emg_trigger_time] = readEMGData(user,false,'_1.mat','_2.mat');
@@ -72,3 +72,19 @@ for i = 1:size(force_runs, 1)
     plot(time_segment_force, force_segment);
     title(['Force Experiment ' num2str(i)]);
 end
+
+%%
+% Save the experiments ----------------------------------------------------
+
+% Saving in .mat format
+save(['results/' user '/' 'emg_and_force_runs_' user '.mat'], 'emg_runs', 'force_runs');
+
+% Saving in .csv format
+for i = 1:size(emg_runs, 1)
+    emg_segment = emg_runs{i, 1}; csvwrite(['results/' user '/' 'emg_experiment_' num2str(i) '.csv'], emg_segment);
+end
+
+for i = 1:size(force_runs, 1)
+    force_segment = force_runs{i, 1}; csvwrite(['results/' user '/' 'force_experiment_' num2str(i) '.csv'], force_segment);
+end
+
