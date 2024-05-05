@@ -28,11 +28,11 @@ for i = 1:length(users)
         end
         
         % Write preprocessed data to CSV
-        csvwrite(['results2/' user '/' 'emg_experiment_' num2str(exp_index) '_mav.csv'], linear_envelope);
+        csvwrite(['results/' user '/' 'emg_experiment_' num2str(exp_index) '_mav.csv'], linear_envelope);
         
         % MNF COMPUTATION -----------------------------------------------------
         % Load the preprocessed HD-EMG data from the CSV file
-        filename = ['results2/' user '/emg_experiment_' num2str(exp_index) '_mav.csv'];
+        filename = ['results/' user '/emg_experiment_' num2str(exp_index) '_mav.csv'];
         hd_emg_data = csvread(filename); 
     
         % Compute number of windows
@@ -64,7 +64,7 @@ for i = 1:length(users)
         end
         
         % Write feature data to CSV
-        csvwrite(['results2/' user '/' 'emg_experiment_' num2str(exp_index) '_mnf.csv'], mnf_values);
+        csvwrite(['results/' user '/' 'emg_experiment_' num2str(exp_index) '_mnf.csv'], mnf_values);
         
         
         % RMS COMPUTATION -----------------------------------------------------
@@ -95,7 +95,7 @@ for i = 1:length(users)
         end
         
         % Write feature data to CSV
-        csvwrite(['results2/' user '/' 'emg_experiment_' num2str(exp_index) '_rms.csv'], rms_values);
+        csvwrite(['results/' user '/' 'emg_experiment_' num2str(exp_index) '_rms.csv'], rms_values);
         
     end
       
