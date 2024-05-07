@@ -1,4 +1,4 @@
-# HD-EMG Fatigue proportional estimation
+# HD-EMG proportional muscular fatigue  estimation
 This repository stores all the code implemented for my master's thesis in Artificial Intelligence, including the HD-EMG Fatigue experimental setup, preprocessing and proportional estimation via various AI models.
 
 ## 📥Download data
@@ -40,9 +40,26 @@ The tasks performed for feature extraction are described below:
 
 - **RMS Computation**: Root Mean Square (RMS) is computed for each channel of the rectified HD-EMG signal. The signal is divided into windows, and for each window, the RMS is computed. 
 
-These feature extraction processes are repeated for each experimental run of each user, resulting in its corresponding CSV files that contain feature matrices of MAV, RMS, and MNF values.
+These feature extraction processes are repeated for each experimental run of each user, resulting in its corresponding `.csv` files that contain feature matrices of MAV, RMS, and MNF values.
 
 ## 🛠️Models
 
-## 📏Results
+This folder stores all the *Google Colab* notebooks built in `.ipynb` format, each of these corresponding to a different model implementation. The models developed are the following:
+
+- **Linear Regression (LR)**: The model training works in the standard CPU, except the k-fold cross validation with all the subjects that works with the NVIDIA A100 GPU, as it provides 40 GB of RAM to store all the HD-EMG data from accross all the subjects.
+
+- **Feed-forward Neural Network (FFNN)**: The model training works in Tesla T4 GPU provided by *Google Colab*, except the k-fold cross validation with all the subjects, because all the input, output data and model architecture overflows all the RAM memory available.
+
+- **CNN + LSTM + Transformer Encoder (CLT)**: This model is inspired on the paper '[Dynamic Muscle Fatigue State Recognition Based on Deep Learning Fusion Model](https://ieeexplore.ieee.org/abstract/document/10233862)'. The model training works in Tesla T4 GPU provided by *Google Colab*.
+
+For all of these model, input and output data combinations, the following experiments are developed and carried out:
+
+- **Using a single experiment run**: In the case of LR, the split of train and test datasets follows an 80-20 ratio, while in FFNN and CLT follows a 70-15-15 ratio due to the need of a validation dataset for the early stopping technique.
+
+- **Training with experiment runs 2-3 and testing with experiment run 4**: In the case of FFNN and CLT, the train dataset consisting of the experiment runs 2 and 3 is also subdivided in training dataset and validation dataset following an 80-20 ratio.
+
+- **K-fold Cross Validation intra-subject**:
+  - **Two experiment runs as training data and the remaining experiment run as testing data**: In the case of FFNN and CLT, the train dataset consisting of two experiment runs is also subdivided in training dataset and validation dataset following an 80-20 ratio.
+
+  - **All the experiment runs combined**: In the case of FFNN and CLT, the train dataset consisting of two folds is also subdivided in training dataset and validation dataset following an 80-20 ratio.
 
