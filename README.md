@@ -1,6 +1,10 @@
 # HD-EMG proportional muscular fatigue  estimation
 This repository stores all the code implemented for my master's thesis in Artificial Intelligence, including the HD-EMG Fatigue experimental setup, preprocessing and proportional estimation via various AI models.
 
+## 📄Data acquisition
+
+In order to obtain the HD-EMG data, 
+
 ## 📥Download data
 In order to work with the original HD-EMG data obtained and preprocessed, this Google Drive folder must be cloned: 
 https://drive.google.com/drive/folders/1kRsAC32kRw5VUpvQzqezt9Unv489gPIW?usp=sharing
