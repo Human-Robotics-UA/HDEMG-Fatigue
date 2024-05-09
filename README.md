@@ -3,7 +3,17 @@ This repository stores all the code implemented for my master's thesis in Artifi
 
 ## 📄Data acquisition
 
-In order to obtain the HD-EMG data, 
+In order to put into action the experiment protocol, the following files were developed:
+
+- `Manual_Trigger.ino`: This file contains Arduino code that initializes a trigger pin and listens for a command from a serial connection. When the command is received, it activates the trigger pin, sending a signal to an external device. This code includes a timer to ensure the trigger signal is sent at a specified interval.
+
+- `main_own_v4_force_and_trigger.py`: It establishes a serial connection with the  OptoForce USB Sensor, continousy reading force data. This force data is stored in the `data1.csv` file. Additionally, the script monitors trigger events by detecting changes in the length of a text file (`data2.txt`) and logs these events alongside the force data. 
+
+- `show_Force.py`: It is used for creating a dynamic plot that updates in real-time as new force data is recorded in the `data1.csv` file. The plot displays the total force values over time, along with a reference line representing the maximum force recorded during the experiment. Additionally, it includes a dashed line indicating 40% of the MVC, providing a visual reference for force thresholds. 
+
+- `show_Trigger.py`: Similar to the previous file, it creates an animated plot that updates dynamically as trigger events are logged in the `data1.csv` file. The plot displays the trigger events over time, represented by red dots, and each dot means that a trigger event was detected during the experiment. 
+
+It is worth noting that the HD-EMG data recording is made in the **OTBiolab+** software, where the trigger received from the Arduino board is configured as the *Aux Acceleration* channel.
 
 ## 📥Download data
 In order to work with the original HD-EMG data obtained and preprocessed, this Google Drive folder must be cloned: 
