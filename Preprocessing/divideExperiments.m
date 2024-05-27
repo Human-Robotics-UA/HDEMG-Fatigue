@@ -129,8 +129,8 @@ function [emg_runs, force_runs] = divideExperiments(emg_data, emg_trigger_data, 
             emg_runs_beforecut{iterator,2} = time_segment;
             
             % Calculate indices for cutting the EMG signal.
-            initial_cut_emg = round(cutted_indices{iterator,1} * 2); % The sampling frequency for HD-EMG is twice the Force one.
-            final_cut_emg = round(cutted_indices{iterator,2} * 2);
+            initial_cut_emg = round(cutted_indices{iterator,1});
+            final_cut_emg = round(cutted_indices{iterator,2});
             final_cut_emg = min(final_cut_emg, length(emg_segment));
             
             % Perform cutting on EMG signal.

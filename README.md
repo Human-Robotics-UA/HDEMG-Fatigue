@@ -1,7 +1,7 @@
 # HD-EMG proportional muscular fatigue  estimation
 This repository stores all the code implemented for my master's thesis in Artificial Intelligence, including the HD-EMG Fatigue experimental setup, preprocessing and proportional estimation via various AI models.
 
-## 📄Data acquisition
+## 📥Data acquisition
 
 In order to put into action the experiment protocol, the following files were developed:
 
@@ -14,10 +14,6 @@ In order to put into action the experiment protocol, the following files were de
 - `show_Trigger.py`: Similar to the previous file, it creates an animated plot that updates dynamically as trigger events are logged in the `data1.csv` file. The plot displays the trigger events over time, represented by red dots, and each dot means that a trigger event was detected during the experiment. 
 
 It is worth noting that the HD-EMG data recording is made in the **OTBiolab+** software, where the trigger received from the Arduino board is configured as the *Aux Acceleration* channel.
-
-## 📥Download data
-In order to work with the original HD-EMG data obtained and preprocessed, this Google Drive folder must be cloned: 
-https://drive.google.com/drive/folders/1kRsAC32kRw5VUpvQzqezt9Unv489gPIW?usp=sharing
 
 ## 📈Preprocess data
 
@@ -64,7 +60,7 @@ This folder stores all the *Google Colab* notebooks built in `.ipynb` format, ea
 
 - **Feed-forward Neural Network (FFNN)**: The model training works in Tesla T4 GPU provided by *Google Colab*, except the k-fold cross validation with all the subjects, because all the input, output data and model architecture overflows all the RAM memory available.
 
-- **CNN + LSTM + Transformer Encoder (CLT)**: This model is inspired on the paper '[Dynamic Muscle Fatigue State Recognition Based on Deep Learning Fusion Model](https://ieeexplore.ieee.org/abstract/document/10233862)'. The model training works in Tesla T4 GPU provided by *Google Colab*.
+- **CNN + LSTM + Transformer Encoder (CLT)**: This model is inspired on the paper '[Dynamic Muscle Fatigue State Recognition Based on Deep Learning Fusion Model](https://ieeexplore.ieee.org/abstract/document/10233862)', but only the LSTM module was finally used. The model training works in Tesla T4 GPU provided by *Google Colab*, except the k-fold cross validation with all the subjects that works with the NVIDIA A100 GPU.
 
 For all of these model, input and output data combinations, the following experiments are developed and carried out:
 
